@@ -40,4 +40,4 @@ while user_input != "exit":
         print("exiting the program..")
         break
 
-dasdas_dsadas = 0
+dasdas_dsadas = 00000
