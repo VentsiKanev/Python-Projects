@@ -24,4 +24,18 @@ while user_input != "exit":
     user_input = input(
         "Please enter your numbers to be calculated separeted by commas: "
     )
- 
+    if " " in user_input and ":" not in user_input:
+        print("Please add two dots : after each number (e.g., 1: 2: 3)")
+
+    else:
+        for user_input_element in user_input.split(":"):
+            try:
+                num = int(user_input_element)
+                validation_user_type(num)
+
+            except ValueError:
+                print("Please enter a valid number")
+
+    if user_input == "exit":
+        print("exiting the program..")
+        break
