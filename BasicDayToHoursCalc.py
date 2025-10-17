@@ -18,7 +18,7 @@ def validation_user_type(user_input_element):
         print("Cannot be negative value")
 
 
-user_input = int()
+user_input = ""
 
 while user_input != "exit":
     user_input = input(
@@ -40,4 +40,3 @@ while user_input != "exit":
         print("exiting the program..")
         break
 
-testing dsadasdas 
