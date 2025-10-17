@@ -14,5 +14,5 @@ today_date = datetime.datetime.today()
 time_till = deadline_date - today_date
 
 print(
-    f"Please note that the time remaining for your goal to {goal} is {time_till.days} days"
+    f"Please note that the time remaining for your goal to {goal} is {time_till.days}"
 )
