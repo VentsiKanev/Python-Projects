@@ -22,11 +22,14 @@ while user_input != "exit":
         print("Exiting the program..")
         break
     elif user_input.isspace():
-          print("Program does not accepts empty space") 
+        print("Program does not accepts empty space") 
               
     elif ":" not in user_input:
         print("Please add colons : after each number (e.g., 1:2:3)")
-    
+
+    elif not user_input.replace(":", "").strip():
+        print("Program does not accept empty spaces with colon")
+                
     else:
        for user_input_element in user_input.split(":"):
            user_input_element = user_input_element.strip()
