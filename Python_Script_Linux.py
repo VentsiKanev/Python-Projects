@@ -7,4 +7,4 @@ if os.path.isfile(file):
 else:
     print(f"The file does not exist\nCreating the file...\nDone.")
     os.system("touch {}".format(file))
-    os.system("ls")
+    
