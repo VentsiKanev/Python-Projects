@@ -1,5 +1,6 @@
 import mysql.connector
 from Helper import validation_user_type_string
+from Helper import validation_user_type_int as validation_int
 
 
 
@@ -14,14 +15,6 @@ mycursor = db.cursor()
 
 
 #mycursor.execute("CREATE TABLE Person (Person_id INT PRIMARY KEY AUTO_INCREMENT, first_name VARCHAR(20), last_name VARCHAR(20), diary_entry VARCHAR(500))")
-
-# f_name = ""
-# l_name = ""
-# diary_log = ""
-# person_id = int
-# y = ""
-# check_all_entries = int
-# back_option = int
 
 
 def menu():
@@ -39,10 +32,10 @@ def diary():
     mycursor.execute(Q1, (f_name, l_name, diary_log))
     db.commit()
 
-def get_validated_input(promt):
+def get_validated_input(promt, allow_special_chars=False):
     while True:
         user_input = input(promt)
-        validated = validation_user_type_string(user_input)
+        validated = validation_user_type_string(user_input, allow_special_chars)
         if validated is not None:
             return validated
 
@@ -63,8 +56,23 @@ Q2 = "SELECT * FROM Person ORDER BY Person_id DESC"
 Q3 = "DELETE FROM Person WHERE Person_id = %s"
 
 
-menu()
-diary_option = int(input("Enter your choice: "))
+
+
+while True:
+    menu()
+   
+    try:
+        diary_option = int(input("Enter your choice: "))
+        if diary_option <= 4 and diary_option >= 1:
+           validation_int(diary_option)
+           break
+        else:
+            print("\nPlease enter only numbers between 1 to 4!\n")
+    except ValueError:
+            print("\nPlease Enter only numbers!\n")
+            continue
+    
+
 
 
 
@@ -75,32 +83,40 @@ while diary_option != 4:
               
         l_name = get_validated_input("Enter your last name: ")
                  
-        diary_log = get_validated_input("How do you feel today?: ")
+        diary_log = get_validated_input("How do you feel today?: ", allow_special_chars=True)
               
         mycursor.execute(Q1, (f_name, l_name, diary_log))
         db.commit()
+        while True:
+           y = input("Would you like to make a new diary entry? [yes/no] ").lower()
         
-        y = input("Would you like to make a new diary entry? [yes/no] ")
-        
-        if y == "yes":
-            diary_option = 1  # Keep diary_option as 1 to loop again
-        elif y == "no":
-            print("Entering the main menu")
-            menu()
-            diary_option = int(input("Enter your choice: "))
-        else:
-            print("Apologies, I don't understand your input.")
-            # Ask again instead of breaking
-            continue
+           if y == "yes":
+              break
+           elif y == "no":
+              print("Entering the main menu")
+              menu()
+              diary_option = int(input("Enter your choice: "))
+              break
+           else:
+              print("Apologies, I don't understand your input.")
+              # Ask again instead of breaking
+              continue
 
 
 
     elif diary_option == 2:
         print("\n1. Check all existing records")
         print("2. Go back to main menu")
-        check_all_entries = int(input("Enter your choice: "))
-    
-        if check_all_entries == 1:
+        try:
+        
+           check_all_entries = int(input("Enter your choice: "))
+           valid_user_input = validation_int(check_all_entries)
+
+        except ValueError:
+           print("\nPlease enter only numbers!")
+           continue
+                  
+        if valid_user_input == 1:
           while True:
             print("\nAll existing diary records (most recent first):")
             mycursor.execute(Q2)
@@ -112,30 +128,42 @@ while diary_option != 4:
               
             elif back_button == "no":
                  continue
-                
-                     
+              
+                                   
                    
-        elif check_all_entries == 2:
+        elif valid_user_input == 2:
             print("Entering the main menu")
             menu()
             diary_option = int(input("Enter your choice: "))
         
         else:
-            print("Invalid choice. Returning to main menu.")
-            menu()
-            diary_option = int(input("Enter your choice: "))
+            print("Please enter 1 or 2")
+            continue
+            
 
 
     elif diary_option == 3:
           print("Delete diary entry record by the ID number ")
           person_id = input("Please enter the ID number of the record: ")
-          mycursor.execute(Q3, (person_id))
-          db.commit()
-          print("Diary entry record is deleting... \nDone. \nEntering the main menu... ")
-          menu()
-          diary_option = int(input("Enter your choice: "))
+           
+          try:
+              person_id = int(person_id)
+              if person_id > 0:
+                 mycursor.execute(Q3, (person_id,))
+                 db.commit()
+                 print("Diary entry record is deleting... \nDone. \nEntering the main menu... ")
+              else:
+               print("Enter a valid positive number")
+          except ValueError:
+               menu()
+               diary_option = int(input("Enter your choice: "))
+    
+        
 
 
-    else:
-       if diary_option == 4:
+    elif diary_option == 4:
         exit(0)
+    else:
+        print("Please enter only numbers between 1 to 4!")
+        validation_menu()
+      
