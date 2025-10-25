@@ -32,6 +32,5 @@ def validation_user_type_string(user_input_element, allow_special_chars=False):
         print("Error: String cannot be only whitespace")
         return 
     else:
-        print(f"Valid string: {user_input_element}")
         return user_input_element
     
