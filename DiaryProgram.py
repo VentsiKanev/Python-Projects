@@ -143,7 +143,7 @@ while diary_option != 4:
 
 
     elif diary_option == 3:
-          print("Delete diary entry record by the ID number ")
+          print("\nDelete diary entry record by the ID number ")
           person_id = input("Please enter the ID number of the record: ")
            
           try:
@@ -151,12 +151,21 @@ while diary_option != 4:
               if person_id > 0:
                  mycursor.execute(Q3, (person_id,))
                  db.commit()
-                 print("Diary entry record is deleting... \nDone. \nEntering the main menu... ")
+                 print("Diary entry record is deleting... \nDone.")
               else:
-               print("Enter a valid positive number")
+                  print("\nPlease enter a positive number!\n")
+                  continue
+                                         
           except ValueError:
-               menu()
-               diary_option = int(input("Enter your choice: "))
+               print("\nPlease enter only numbers without special characters!\n ")
+               continue
+              
+         
+          new_entry_ask = get_validated_input("\nWould you like to delete another entry? [Yes/No]: ").lower()
+          if new_entry_ask == "yes":
+              continue
+    
+    
     
         
 
@@ -165,5 +174,5 @@ while diary_option != 4:
         exit(0)
     else:
         print("Please enter only numbers between 1 to 4!")
-        validation_menu()
+        menu()
       
