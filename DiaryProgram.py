@@ -57,23 +57,20 @@ Q3 = "DELETE FROM Person WHERE Person_id = %s"
 
 
 
-
-while True:
-    menu()
-   
-    try:
-        diary_option = int(input("Enter your choice: "))
-        if diary_option <= 4 and diary_option >= 1:
-           validation_int(diary_option)
-           break
-        else:
-            print("\nPlease enter only numbers between 1 to 4!\n")
-    except ValueError:
-            print("\nPlease Enter only numbers!\n")
-            continue
+def main_menu_option():
+ while True:
+   menu()
+   try:
+         diary_option = int(input("Enter your choice: "))
+         if diary_option <= 4 and diary_option >= 1:
+            return validation_int(diary_option)
+         else:
+             print("\nPlease enter only numbers between 1 to 4!\n")
+   except ValueError:
+            print("Please enter whole numbers!")
     
 
-
+diary_option = main_menu_option()
 
 
 while diary_option != 4:
@@ -163,16 +160,27 @@ while diary_option != 4:
          
           new_entry_ask = get_validated_input("\nWould you like to delete another entry? [Yes/No]: ").lower()
           if new_entry_ask == "yes":
-              continue
+             continue
+          elif new_entry_ask == "no":
+            print("Entering the main menu..\n")
+            main_menu_option()
+            
+    
+
+    
+        
+
+
+    elif  diary_option == 4:
+        exit(0)
+else:
+    print("Please enter only numbers between 1 to 4!")
+    menu()
     
     
     
         
 
 
-    elif diary_option == 4:
-        exit(0)
-    else:
-        print("Please enter only numbers between 1 to 4!")
-        menu()
+
       
