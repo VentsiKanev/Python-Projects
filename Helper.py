@@ -1,16 +1,40 @@
 def validation_user_type_int(user_input_element):
-    if type(user_input_element) not in (int, float):
-        return 
-    elif user_input_element > 0:
-        return user_input_element
-        #calc_result = result(user_input_element)
-        #print(calc_result)
-    elif user_input_element >= 5:
-        print("The only acceptable numbers are between 1 to 4")
-    elif user_input_element == 0:
-        print("Cannot be zero")
-    elif user_input_element < 0:
-        print("\nCannot be negative value")
+    # Check type
+    if not isinstance(user_input_element, (int, float)):
+        return "Invalid type"
+    
+    # Try to convert to integer
+    try:
+        value = int(user_input_element)
+    except (ValueError, TypeError):
+        return "Must be a valid number"
+    
+    # Validate value
+    if value < 0:
+        return "Cannot be negative value"
+    
+    if value == 0:
+        return  "Cannot be zero"
+    
+    if value > 4:
+        return  "The only acceptable numbers are between 1 to 4"
+    
+    # Valid (1-4)
+    return  value
+
+
+def validate_ID_int(user_input_ID):
+    """Validate any positive integer"""
+    try:
+        value = int(user_input_ID)
+    except (ValueError, TypeError):
+        return "Must be a valid number"
+    
+    if value <= 0:
+        return "Must be a positive number"
+    
+    return value
+
 
 calc_to_hours = 24
 calc_to_minutes = 1440
